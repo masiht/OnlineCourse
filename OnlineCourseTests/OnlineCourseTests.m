@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "DBModel.h"
 
 @interface OnlineCourseTests : XCTestCase
 
@@ -25,9 +26,10 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (void)testDatabase {
+    
+    DBModel *database = [[DBModel alloc] init];
+    [database getUser];
 }
 
 - (void)testPerformanceExample {
