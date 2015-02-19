@@ -17,6 +17,9 @@
 		306236881A9522C000C18242 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306236861A9522C000C18242 /* LaunchScreen.xib */; };
 		306236941A9522C000C18242 /* OnlineCourseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 306236931A9522C000C18242 /* OnlineCourseTests.m */; };
 		426CE4831A954D090052EEB6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 426CE4821A954D090052EEB6 /* libsqlite3.dylib */; };
+		42C900D71A96958F00D8AA79 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900D61A96958F00D8AA79 /* User.m */; };
+		42C900DA1A9695AC00D8AA79 /* Journal.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900D91A9695AC00D8AA79 /* Journal.m */; };
+		42C900DD1A9695C200D8AA79 /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900DC1A9695C200D8AA79 /* Chapter.m */; };
 		42DC66D71A95267300DF6BD3 /* DBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DC66D61A95267300DF6BD3 /* DBModel.m */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +52,12 @@
 		306236921A9522C000C18242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		306236931A9522C000C18242 /* OnlineCourseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnlineCourseTests.m; sourceTree = "<group>"; };
 		426CE4821A954D090052EEB6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		42C900D51A96958F00D8AA79 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		42C900D61A96958F00D8AA79 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		42C900D81A9695AC00D8AA79 /* Journal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Journal.h; sourceTree = "<group>"; };
+		42C900D91A9695AC00D8AA79 /* Journal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Journal.m; sourceTree = "<group>"; };
+		42C900DB1A9695C200D8AA79 /* Chapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chapter.h; sourceTree = "<group>"; };
+		42C900DC1A9695C200D8AA79 /* Chapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chapter.m; sourceTree = "<group>"; };
 		42DC66D51A95267300DF6BD3 /* DBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBModel.h; sourceTree = "<group>"; };
 		42DC66D61A95267300DF6BD3 /* DBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +112,12 @@
 				30488A211A96841D003DA036 /* SplitViewController.m */,
 				42DC66D51A95267300DF6BD3 /* DBModel.h */,
 				42DC66D61A95267300DF6BD3 /* DBModel.m */,
+				42C900DB1A9695C200D8AA79 /* Chapter.h */,
+				42C900DC1A9695C200D8AA79 /* Chapter.m */,
+				42C900D81A9695AC00D8AA79 /* Journal.h */,
+				42C900D91A9695AC00D8AA79 /* Journal.m */,
+				42C900D51A96958F00D8AA79 /* User.h */,
+				42C900D61A96958F00D8AA79 /* User.m */,
 				306236811A9522C000C18242 /* Main.storyboard */,
 				306236841A9522C000C18242 /* Images.xcassets */,
 				306236861A9522C000C18242 /* LaunchScreen.xib */,
@@ -239,11 +254,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3062367A1A9522C000C18242 /* AppDelegate.m in Sources */,
+				42C900D71A96958F00D8AA79 /* User.m in Sources */,
 				42DC66D71A95267300DF6BD3 /* DBModel.m in Sources */,
 				30488A221A96841D003DA036 /* SplitViewController.m in Sources */,
 				3062367D1A9522C000C18242 /* MasterViewController.m in Sources */,
 				306236771A9522C000C18242 /* main.m in Sources */,
 				306236801A9522C000C18242 /* DetailViewController.m in Sources */,
+				42C900DD1A9695C200D8AA79 /* Chapter.m in Sources */,
+				42C900DA1A9695AC00D8AA79 /* Journal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
