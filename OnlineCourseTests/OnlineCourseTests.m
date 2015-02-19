@@ -26,10 +26,17 @@
     [super tearDown];
 }
 
+/*- (void)testRebuildDB {
+    DBModel *database = [[DBModel alloc] init];
+    [database dropTables];
+    [database createTables];
+}*/
+
 - (void)testDatabase {
     
     DBModel *database = [[DBModel alloc] init];
-    [database getUser];
+    [database insertIntoUser:@"Neeraj" password:@"neeraj"];
+    NSLog(@"%@", [database user:@"Neeraj"]);
 }
 
 - (void)testPerformanceExample {

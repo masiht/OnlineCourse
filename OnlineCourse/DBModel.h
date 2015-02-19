@@ -20,11 +20,11 @@
 - (instancetype)init;
 - (void)createTables;
 - (void)dropTables;
-- (void)insertIntoUser;
-- (NSDictionary *)getUser;
+- (void)insertIntoUser:(NSString *)userId password:(NSString *)password;
+- (NSDictionary *)user:(NSString *)userId;
 - (void)insertIntoChapter;
-- (NSDictionary *)getChapter;
+- (NSDictionary *)chapter:(NSUInteger)chapterId;
 - (void)insertIntoJournal;
-- (NSDictionary *)getJournal;
+- (NSDictionary *)journal:(NSUInteger)journalId;
 
 @end
