@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		227137431A9655710084828E /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227137421A9655710084828E /* LogInViewController.m */; };
+		30488A221A96841D003DA036 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30488A211A96841D003DA036 /* SplitViewController.m */; };
 		306236771A9522C000C18242 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 306236761A9522C000C18242 /* main.m */; };
 		3062367A1A9522C000C18242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 306236791A9522C000C18242 /* AppDelegate.m */; };
 		3062367D1A9522C000C18242 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3062367C1A9522C000C18242 /* MasterViewController.m */; };
@@ -31,8 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		227137411A9655710084828E /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogInViewController.h; path = ../LogInViewController.h; sourceTree = "<group>"; };
-		227137421A9655710084828E /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogInViewController.m; path = ../LogInViewController.m; sourceTree = "<group>"; };
+		30488A201A96841D003DA036 /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
+		30488A211A96841D003DA036 /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		306236711A9522C000C18242 /* OnlineCourse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnlineCourse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		306236751A9522C000C18242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		306236761A9522C000C18242 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -99,8 +99,8 @@
 				3062367C1A9522C000C18242 /* MasterViewController.m */,
 				3062367E1A9522C000C18242 /* DetailViewController.h */,
 				3062367F1A9522C000C18242 /* DetailViewController.m */,
-				227137411A9655710084828E /* LogInViewController.h */,
-				227137421A9655710084828E /* LogInViewController.m */,
+				30488A201A96841D003DA036 /* SplitViewController.h */,
+				30488A211A96841D003DA036 /* SplitViewController.m */,
 				42DC66D51A95267300DF6BD3 /* DBModel.h */,
 				42DC66D61A95267300DF6BD3 /* DBModel.m */,
 				306236811A9522C000C18242 /* Main.storyboard */,
@@ -240,7 +240,7 @@
 			files = (
 				3062367A1A9522C000C18242 /* AppDelegate.m in Sources */,
 				42DC66D71A95267300DF6BD3 /* DBModel.m in Sources */,
-				227137431A9655710084828E /* LogInViewController.m in Sources */,
+				30488A221A96841D003DA036 /* SplitViewController.m in Sources */,
 				3062367D1A9522C000C18242 /* MasterViewController.m in Sources */,
 				306236771A9522C000C18242 /* main.m in Sources */,
 				306236801A9522C000C18242 /* DetailViewController.m in Sources */,

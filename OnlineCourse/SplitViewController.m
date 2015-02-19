@@ -1,36 +1,28 @@
 //
-//  LogInViewController.m
+//  SplitViewController.m
 //  OnlineCourse
 //
-//  Created by Merritt Tidwell on 2/19/15.
+//  Created by Masih Tabrizi on 2/19/15.
 //  Copyright (c) 2015 Masih. All rights reserved.
 //
 
-#import "LogInViewController.h"
+#import "SplitViewController.h"
 
-@interface LogInViewController ()
+@interface SplitViewController ()
 
 @end
 
-@implementation LogInViewController
+@implementation SplitViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-    self.viewFields.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.viewFields.layer.borderWidth = 1;
-
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-// Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreated.
 }
-
-
-
-
 
 /*
 #pragma mark - Navigation
