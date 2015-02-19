@@ -35,8 +35,15 @@
 - (void)testDatabase {
     
     DBModel *database = [[DBModel alloc] init];
-    [database insertIntoUser:@"Neeraj" password:@"neeraj"];
-    NSLog(@"%@", [database user:@"Neeraj"]);
+    /*[database insertIntoUser:@"Di" password:@"di"];
+    [database insertIntoChapter:@"Chapter 1" chapterText:@"Some text" videoUrl:@"http://localhost/~dk/chapter1.m3u8"];
+    [database insertIntoJournal:@"Di" chapterTitle:@"Chapter 1" comment:@"This is junk" date:[NSDate date]];*/
+    
+    NSDictionary *dict = [database journal:1];
+    for (NSString *key in [dict allKeys]) {
+        NSLog(@"key = %@, value = %@", key, dict[key]);
+    }
+    
 }
 
 - (void)testPerformanceExample {

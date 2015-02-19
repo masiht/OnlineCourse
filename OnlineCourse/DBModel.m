@@ -48,17 +48,16 @@
     "  PASSWORD  TEXT NOT NULL"
     ");"
     "CREATE TABLE IF NOT EXISTS CHAPTER ("
-    "  CHAPTER_ID     INTEGER PRIMARY KEY AUTOINCREMENT,"
-    "  CHAPTER_TITLE  TEXT NOT NULL,"
-    "  VIDEO_URL      TEXT NOT NULL,"
+    "  CHAPTER_TITLE  TEXT PRIMARY KEY,"
     "  CHAPTER_TEXT   TEXT"
+    "  VIDEO_URL      TEXT NOT NULL,"
     ");"
     "CREATE TABLE IF NOT EXISTS JOURNAL ("
-    "  JOURNAL_ID  INTEGER PRIMARY KEY AUTOINCREMENT,"
-    "  USER_ID     TEXT REFERENCES USER ON DELETE CASCADE,"
-    "  CHAPTER_ID  INTEGER REFERENCES CHAPTER ON DELETE CASCADE,"
-    "  COMMENT     TEXT NOT NULL,"
-    "  DATE        INTEGER"
+    "  JOURNAL_ID     INTEGER PRIMARY KEY AUTOINCREMENT,"
+    "  USER_ID        TEXT REFERENCES USER ON DELETE CASCADE,"
+    "  CHAPTER_TITLE  TEXT REFERENCES CHAPTER ON DELETE CASCADE,"
+    "  COMMENT        TEXT NOT NULL,"
+    "  DATE           INTEGER"
     ");";
     
     result = sqlite3_exec(db, [createQuery UTF8String], NULL, NULL, &errorMsg);
@@ -81,9 +80,7 @@
     sqlite3_close(db);
 }
 
-
-/* TODO: implement sqlite insert/update and select methods */
-- (void)insertIntoUser:(NSString *)userId password:(NSString *)password {
+- (void)setUserWithId:(NSString *)userId password:(NSString *)password {
     
     NSString *updateQuery = @"INSERT OR REPLACE INTO USER (USER_ID, PASSWORD) VALUES (?, ?);";
     int result = sqlite3_open([dbPath UTF8String], &db);
@@ -94,8 +91,8 @@
     [self checkError:result withMessage:@"Error preparing for query."];
     
     char *errorMsg = NULL;
-    sqlite3_bind_text(statement, 1, [userId UTF8String], -1, NULL);
-    sqlite3_bind_text(statement, 2, [password UTF8String], -1, NULL);
+    sqlite3_bind_text(statement, 1, [userId UTF8String], -1, nil);
+    sqlite3_bind_text(statement, 2, [password UTF8String], -1, nil);
     
     if (sqlite3_step(statement) != SQLITE_DONE) {
         NSAssert(0, @"Error updating table: %s", errorMsg);
@@ -105,55 +102,103 @@
     sqlite3_close(db);
 }
 
-- (void)insertIntoChapter {}
+- (void)setChapterWithTitle:(NSString *)chapterTitle chapterText:(NSString *)chapterText videoUrl:(NSString *)videoUrl {
 
-- (void)insertIntoJournal {}
-
-- (NSArray *)execSelect:(NSString *)query columnCount:(NSUInteger)count {
-
+    NSString *updateQuery = @"INSERT OR REPLACE INTO CHAPTER (CHAPTER_TITLE, CHAPTER_TEXT, VIDEO_URL) VALUES (?, ?, ?);";
     int result = sqlite3_open([dbPath UTF8String], &db);
     [self checkError:result withMessage:@"Failed to open database."];
     
     sqlite3_stmt *statement;
-    /*NSString *pragmaQuery = @"PRAGMA TABLE_INFO()"*/
+    result = sqlite3_prepare_v2(db, [updateQuery UTF8String], -1, &statement, nil);
+    [self checkError:result withMessage:@"Error preparing for query."];
     
-    result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, nil);
-    [self checkError:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", query]];
+    char *errorMsg = NULL;
+    sqlite3_bind_text(statement, 1, [chapterTitle UTF8String], -1, nil);
+    sqlite3_bind_text(statement, 2, [chapterText UTF8String], -1, nil);
+    sqlite3_bind_text(statement, 3, [videoUrl UTF8String], -1, nil);
     
-    NSMutableArray *retArr = [NSMutableArray arrayWithCapacity:count];
-    int p = sqlite3_step(statement);
-    while (p == SQLITE_ROW) {
-        for (int i = 0; i < count; i ++) {
-            retArr[i] = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, i)];
-        }
-        p = sqlite3_step(statement);
+    if (sqlite3_step(statement) != SQLITE_DONE) {
+        NSAssert(0, @"Error updating table: %s", errorMsg);
     }
+    
     sqlite3_finalize(statement);
     sqlite3_close(db);
+}
+
+- (void)setJournalWithUserId:(NSString *)userId chapterTitle:(NSString *)chapterTitle comment:(NSString *)comment date:(NSDate *)date {
     
-    if (retArr.count == 0)
-        return nil;
-    return [NSArray arrayWithArray:retArr];
+    NSString *updateQuery = @"INSERT OR REPLACE INTO JOURNAL (USER_ID, CHAPTER_TITLE, COMMENT, DATE) VALUES (?, ?, ?, ?);";
+    int result = sqlite3_open([dbPath UTF8String], &db);
+    [self checkError:result withMessage:@"Failed to open database."];
+    
+    sqlite3_stmt *statement;
+    result = sqlite3_prepare_v2(db, [updateQuery UTF8String], -1, &statement, nil);
+    [self checkError:result withMessage:@"Error preparing for query."];
+    
+    char *errorMsg = NULL;
+    sqlite3_bind_text(statement, 1, [userId UTF8String], -1, nil);
+    sqlite3_bind_text(statement, 2, [chapterTitle UTF8String], -1, nil);
+    sqlite3_bind_text(statement, 3, [comment UTF8String], -1, nil);
+    sqlite3_bind_int(statement, 4, [date timeIntervalSince1970]);
+    
+    if (sqlite3_step(statement) != SQLITE_DONE) {
+        NSAssert(0, @"Error updating table: %s", errorMsg);
+    }
+    
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
 }
 
 - (NSDictionary *)user:(NSString *)userId {
     
     NSString *selectQuery = [NSString stringWithFormat:@"SELECT * FROM USER WHERE USER_ID = '%@';", userId];
+    
+    int result = sqlite3_open([dbPath UTF8String], &db);
+    [self checkError:result withMessage:@"Failed to open database."];
     NSArray *keyArr = @[@"userId", @"password"];
-    NSArray *valArr = [self execSelect:selectQuery columnCount:2];
-    if (valArr == nil)
-        return nil;
-
+    NSMutableArray *valArr = [NSMutableArray arrayWithCapacity:2];
+    
+    // Retrieve data
+    sqlite3_stmt *statement;
+    result = sqlite3_prepare_v2(db, [selectQuery UTF8String], -1, &statement, nil);
+    [self checkError:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", selectQuery]];
+    
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        char *userIdStr = (char *)sqlite3_column_text(statement, 0);
+        char *passwordStr = (char *)sqlite3_column_text(statement, 1);
+        valArr[0] = [NSString stringWithUTF8String:userIdStr];
+        valArr[1] = [NSString stringWithUTF8String:passwordStr];
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
+    
     return [NSDictionary dictionaryWithObjects:valArr forKeys:keyArr];
 }
 
-- (NSDictionary *)chapter:(NSUInteger)chapterId {
+- (NSDictionary *)chapter:(NSString *)chapterTitle {
     
-    NSString *selectQuery = [NSString stringWithFormat:@"SELECT * FROM CHAPTER WHERE CHAPTER_ID = %lu;", chapterId];
-    NSArray *keyArr = @[@"chapterId", @"chapterTitle", @"videoUrl", @"chapterText"];
-    NSArray *valArr = [self execSelect:selectQuery columnCount:4];
-    if (valArr == nil)
-        return nil;
+    NSString *selectQuery = [NSString stringWithFormat:@"SELECT * FROM CHAPTER WHERE CHAPTER_TITLE = '%@';", chapterTitle];
+    
+    int result = sqlite3_open([dbPath UTF8String], &db);
+    [self checkError:result withMessage:@"Failed to open database."];
+    NSArray *keyArr = @[@"chapterTitle", @"chapterText", @"videoUrl"];
+    NSMutableArray *valArr = [NSMutableArray arrayWithCapacity:3];
+    
+    // Retrieve data
+    sqlite3_stmt *statement;
+    result = sqlite3_prepare_v2(db, [selectQuery UTF8String], -1, &statement, nil);
+    [self checkError:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", selectQuery]];
+    
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        char *chapterTitleStr = (char *)sqlite3_column_text(statement, 0);
+        char *chapterTextStr = (char *)sqlite3_column_text(statement, 1);
+        char *videoUrlStr = (char *)sqlite3_column_text(statement, 2);
+        valArr[0] = [NSString stringWithUTF8String:chapterTitleStr];
+        valArr[1] = [NSString stringWithUTF8String:chapterTextStr];
+        valArr[2] = [NSString stringWithUTF8String:videoUrlStr];
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     
     return [NSDictionary dictionaryWithObjects:valArr forKeys:keyArr];
 }
@@ -161,12 +206,74 @@
 - (NSDictionary *)journal:(NSUInteger)journalId {
     
     NSString *selectQuery = [NSString stringWithFormat:@"SELECT * FROM JOURNAL WHERE JOURNAL_ID = %lu;", journalId];
-    NSArray *keyArr = @[@"journalId", @"userId", @"chapterId", @"comment", @"date"];
-    NSArray *valArr = [self execSelect:selectQuery columnCount:5];
-    if (valArr == nil)
-        return nil;
+    
+    int result = sqlite3_open([dbPath UTF8String], &db);
+    [self checkError:result withMessage:@"Failed to open database."];
+    NSArray *keyArr = @[@"journalId", @"userId", @"chapterTitle", @"comment", @"date"];
+    NSMutableArray *valArr = [NSMutableArray arrayWithCapacity:5];
+    
+    // Retrieve data
+    sqlite3_stmt *statement;
+    result = sqlite3_prepare_v2(db, [selectQuery UTF8String], -1, &statement, nil);
+    [self checkError:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", selectQuery]];
+    
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        int journalId = sqlite3_column_int(statement, 0);
+        char *userIdStr = (char *)sqlite3_column_text(statement, 1);
+        char *chapterTitleStr = (char *)sqlite3_column_text(statement, 2);
+        char *commentStr = (char *)sqlite3_column_text(statement, 3);
+        int dateInterval = sqlite3_column_int(statement, 4);
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:dateInterval];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+        valArr[0] = @(journalId);
+        valArr[1] = [NSString stringWithUTF8String:userIdStr];
+        valArr[2] = [NSString stringWithUTF8String:chapterTitleStr];
+        valArr[3] = [NSString stringWithUTF8String:commentStr];
+        valArr[4] = [dateFormatter stringFromDate:date];
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
     
     return [NSDictionary dictionaryWithObjects:valArr forKeys:keyArr];
 }
+
+- (NSDictionary *)journalWithUserId:(NSString *)userId {
+    
+    NSString *selectQuery = [NSString stringWithFormat:@"SELECT * FROM JOURNAL WHERE USER_ID = '%@';", userId];
+    
+    int result = sqlite3_open([dbPath UTF8String], &db);
+    [self checkError:result withMessage:@"Failed to open database."];
+    NSArray *keyArr = @[@"journalId", @"userId", @"chapterTitle", @"comment", @"date"];
+    NSMutableArray *valArr = [NSMutableArray arrayWithCapacity:5];
+    
+    // Retrieve data
+    sqlite3_stmt *statement;
+    result = sqlite3_prepare_v2(db, [selectQuery UTF8String], -1, &statement, nil);
+    [self checkError:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", selectQuery]];
+    
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        int journalId = sqlite3_column_int(statement, 0);
+        char *userIdStr = (char *)sqlite3_column_text(statement, 1);
+        char *chapterTitleStr = (char *)sqlite3_column_text(statement, 2);
+        char *commentStr = (char *)sqlite3_column_text(statement, 3);
+        int dateInterval = sqlite3_column_int(statement, 4);
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:dateInterval];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+        valArr[0] = @(journalId);
+        valArr[1] = [NSString stringWithUTF8String:userIdStr];
+        valArr[2] = [NSString stringWithUTF8String:chapterTitleStr];
+        valArr[3] = [NSString stringWithUTF8String:commentStr];
+        valArr[4] = [dateFormatter stringFromDate:date];
+    }
+    sqlite3_finalize(statement);
+    sqlite3_close(db);
+    
+    return [NSDictionary dictionaryWithObjects:valArr forKeys:keyArr];
+}
+
 
 @end
