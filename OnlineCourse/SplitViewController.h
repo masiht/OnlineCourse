@@ -8,10 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-<<<<<<< Updated upstream
-@interface SplitViewController : UISplitViewController
-=======
 @interface SplitViewController : UISplitViewController <UIAlertViewDelegate>
->>>>>>> Stashed changes
 
 @end

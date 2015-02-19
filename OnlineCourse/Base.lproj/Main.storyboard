@@ -17,11 +17,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8fS-aE-onr" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< Updated upstream
-            <point key="canvasLocation" x="-47" y="-787"/>
-=======
             <point key="canvasLocation" x="1477.5" y="-630"/>
->>>>>>> Stashed changes
         </scene>
         <!--Detail-->
         <scene sceneID="yUG-lL-AsK">
@@ -73,7 +69,6 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZU-Oi-B1e" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< Updated upstream
             <point key="canvasLocation" x="-816" y="-806"/>
         </scene>
         <!--Log In View Controller-->
@@ -137,10 +132,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a73-fO-hI1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-40" y="-1487"/>
-=======
             <point key="canvasLocation" x="162" y="-630"/>
->>>>>>> Stashed changes
         </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
@@ -185,11 +177,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< Updated upstream
-            <point key="canvasLocation" x="798" y="-774"/>
-=======
             <point key="canvasLocation" x="2211.75" y="-630"/>
->>>>>>> Stashed changes
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">
