@@ -14,11 +14,14 @@
 
 @end
 
-@implementation OnlineCourseTests
+@implementation OnlineCourseTests {
+    DBModel *database;
+}
 
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    database = [[DBModel alloc] init];
 }
 
 - (void)tearDown {
@@ -26,25 +29,31 @@
     [super tearDown];
 }
 
-/*- (void)testRebuildDB {
-    DBModel *database = [[DBModel alloc] init];
+- (void)testRebuildDB {
     [database dropTables];
     [database createTables];
-}*/
-
-- (void)testDatabase {
     
-    DBModel *database = [[DBModel alloc] init];
-    /*[database insertIntoUser:@"Di" password:@"di"];
-    [database insertIntoChapter:@"Chapter 1" chapterText:@"Some text" videoUrl:@"http://localhost/~dk/chapter1.m3u8"];
-    [database insertIntoJournal:@"Di" chapterTitle:@"Chapter 1" comment:@"This is junk" date:[NSDate date]];*/
+    [database setUserWithId:@"Di" password:@"di"];
+    [database setUserWithId:@"Masih" password:@"masih"];
+    [database setUserWithId:@"Merritt" password:@"merritt"];
     
-    NSDictionary *dict = [database journal:1];
-    for (NSString *key in [dict allKeys]) {
-        NSLog(@"key = %@, value = %@", key, dict[key]);
-    }
+    [database setChapterWithTitle:@"Chapter 0" chapterText:@"This chapter is very boring" videoUrl:@"http://192.168.1.12/~dk/CH00/SECTION_1/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 1" chapterText:@"This chapter is somewhat boring" videoUrl:@"http://192.168.1.12/~dk/CH01/SECTION_1/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 2" chapterText:@"This chapter is extremely boring" videoUrl:@"http://192.168.1.12/~dk/CH02/SECTION_1/prog_index.m3u8"];
+    
+    [database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 1" comment:@"WTH did I just read" date:[NSDate dateWithTimeIntervalSince1970:1424361502]];
+    [database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 2" comment:@"I did not understand a thing" date:[NSDate dateWithTimeIntervalSince1970:1424376502]];
+    [database setJournalWithUserId:@"Masih" chapterTitle:@"Chapter 1" comment:@"Is this really chapter 1?" date:[NSDate dateWithTimeIntervalSince1970:1424373863]];
+    [database setJournalWithUserId:@"Merritt" chapterTitle:@"Chapter 3" comment:@"Where is chapter 1?" date:[NSDate dateWithTimeIntervalSince1970:1424291939]];
     
 }
+
+/*- (void)testDatabase {
+    
+    DBModel *database = [[DBModel alloc] init];
+    NSLog(@"%@", [database journals]);
+    
+}*/
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.

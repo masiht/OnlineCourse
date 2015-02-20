@@ -10,25 +10,25 @@
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
 
-@class User;
-@class Chapter;
-@class Journal;
 
 @interface DBModel : NSObject {
     sqlite3 *db;
     NSString *dbPath;
 }
 
-/*@property(nonatomic, strong) NSString *errMsg;*/
-
 - (instancetype)init;
 - (void)createTables;
 - (void)dropTables;
+- (NSArray *)users;
+- (NSArray *)chapters;
+- (NSArray *)journals;
+- (NSArray *)userWithId:(NSString *)userId;
+- (NSArray *)chapterWithTitle:(NSString *)chapterTitle;
+- (NSArray *)journalWitId:(NSUInteger)journalId;
+- (NSArray *)journalWithUserId:(NSString *)userId;
+- (NSArray *)journalWithChapterTitle:(NSString *)chapterTitle;
 - (void)setUserWithId:(NSString *)userId password:(NSString *)password;
-- (User *)user:(NSString *)userId;
 - (void)setChapterWithTitle:(NSString *)chapterTitle chapterText:(NSString *)chapterText videoUrl:(NSString *)videoUrl;
-- (Chapter *)chapter:(NSString *)chapterTitle;
 - (void)setJournalWithUserId:(NSString *)userId chapterTitle:(NSString *)chapterTitle comment:(NSString *)comment date:(NSDate *)date;
-- (Journal *)journal:(NSUInteger)journalId;
 
 @end

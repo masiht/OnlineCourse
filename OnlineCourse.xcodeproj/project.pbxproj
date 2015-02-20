@@ -21,6 +21,7 @@
 		42C900DA1A9695AC00D8AA79 /* Journal.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900D91A9695AC00D8AA79 /* Journal.m */; };
 		42C900DD1A9695C200D8AA79 /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900DC1A9695C200D8AA79 /* Chapter.m */; };
 		42DC66D71A95267300DF6BD3 /* DBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DC66D61A95267300DF6BD3 /* DBModel.m */; };
+		42EAA4B31A97C787004BBC60 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAA4B21A97C787004BBC60 /* PlayerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		42C900DC1A9695C200D8AA79 /* Chapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chapter.m; sourceTree = "<group>"; };
 		42DC66D51A95267300DF6BD3 /* DBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBModel.h; sourceTree = "<group>"; };
 		42DC66D61A95267300DF6BD3 /* DBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBModel.m; sourceTree = "<group>"; };
+		42EAA4B11A97C787004BBC60 /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
+		42EAA4B21A97C787004BBC60 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,9 @@
 				3062367F1A9522C000C18242 /* DetailViewController.m */,
 				30488A201A96841D003DA036 /* SplitViewController.h */,
 				30488A211A96841D003DA036 /* SplitViewController.m */,
+				306236811A9522C000C18242 /* Main.storyboard */,
+				42EAA4B11A97C787004BBC60 /* PlayerView.h */,
+				42EAA4B21A97C787004BBC60 /* PlayerView.m */,
 				42DC66D51A95267300DF6BD3 /* DBModel.h */,
 				42DC66D61A95267300DF6BD3 /* DBModel.m */,
 				42C900DB1A9695C200D8AA79 /* Chapter.h */,
@@ -118,7 +124,6 @@
 				42C900D91A9695AC00D8AA79 /* Journal.m */,
 				42C900D51A96958F00D8AA79 /* User.h */,
 				42C900D61A96958F00D8AA79 /* User.m */,
-				306236811A9522C000C18242 /* Main.storyboard */,
 				306236841A9522C000C18242 /* Images.xcassets */,
 				306236861A9522C000C18242 /* LaunchScreen.xib */,
 				306236741A9522C000C18242 /* Supporting Files */,
@@ -262,6 +267,7 @@
 				306236801A9522C000C18242 /* DetailViewController.m in Sources */,
 				42C900DD1A9695C200D8AA79 /* Chapter.m in Sources */,
 				42C900DA1A9695AC00D8AA79 /* Journal.m in Sources */,
+				42EAA4B31A97C787004BBC60 /* PlayerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

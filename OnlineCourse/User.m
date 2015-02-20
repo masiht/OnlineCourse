@@ -26,4 +26,9 @@
     return self;
 }
 
+- (NSString *)description {
+
+    return [NSString stringWithFormat:@"User ID: %@   Password: %@", self.userId, self.password];
+}
+
 @end

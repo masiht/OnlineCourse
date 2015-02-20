@@ -27,4 +27,9 @@
     return self;
 }
 
+- (NSString *)description {
+
+    return [NSString stringWithFormat:@"%@: %@   Video Link: %@", self.chapterTitle, self.chapterText, self.videoUrl];
+}
+
 @end
