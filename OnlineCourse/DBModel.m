@@ -22,7 +22,7 @@
                                                              NSUserDomainMask, YES);
         NSString *documentsDirectory = paths[0];
         dbPath = [documentsDirectory stringByAppendingPathComponent:@"db.sqlite"];
-        NSLog(@"You may fing the database at \'%@\'", dbPath);
+        NSLog(@"You may fing the database at %@", dbPath);
     }
     return self;
 }
