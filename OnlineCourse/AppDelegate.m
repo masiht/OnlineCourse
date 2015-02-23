@@ -20,7 +20,7 @@
 - (void)constructDB {
 
     DBModel *database = [[DBModel alloc] init];
-    [database dropTables];
+  //  [database dropTables];
     [database createTables];
     
     [database setUserWithId:@"Di" password:@"di"];
