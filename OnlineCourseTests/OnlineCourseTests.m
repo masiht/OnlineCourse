@@ -29,29 +29,7 @@
     [super tearDown];
 }
 
-- (void)testRebuildDB {
-    [database dropTables];
-    [database createTables];
-    
-    [database setUserWithId:@"Di" password:@"di"];
-    [database setUserWithId:@"Masih" password:@"masih"];
-    [database setUserWithId:@"Merritt" password:@"merritt"];
-    
-    [database setChapterWithTitle:@"Chapter 0" chapterText:@"This chapter is very boring" videoUrl:@"http://192.168.1.12/~dk/CH00/SECTION_1/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 1" chapterText:@"This chapter is somewhat boring" videoUrl:@"http://192.168.1.12/~dk/CH01/SECTION_1/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 2" chapterText:@"This chapter is extremely boring" videoUrl:@"http://192.168.1.12/~dk/CH02/SECTION_1/prog_index.m3u8"];
-    
-    [database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 1" comment:@"WTH did I just read" date:[NSDate dateWithTimeIntervalSince1970:1424361502]];
-    [database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 2" comment:@"I did not understand a thing" date:[NSDate dateWithTimeIntervalSince1970:1424376502]];
-    [database setJournalWithUserId:@"Masih" chapterTitle:@"Chapter 1" comment:@"Is this really chapter 1?" date:[NSDate dateWithTimeIntervalSince1970:1424373863]];
-    [database setJournalWithUserId:@"Merritt" chapterTitle:@"Chapter 3" comment:@"Where is chapter 1?" date:[NSDate dateWithTimeIntervalSince1970:1424291939]];
-    
-}
-
-/*- (void)testDatabase {
-    
-    DBModel *database = [[DBModel alloc] init];
-    NSLog(@"%@", [database journals]);
+/*- (void)testRebuildDB {
     
 }*/
 

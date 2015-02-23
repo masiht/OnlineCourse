@@ -13,7 +13,7 @@
 @class Chapter;
 @class User;
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController <UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet PlayerView *playerView;
 @property (nonatomic, weak) IBOutlet UIButton *playButton;
