@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "DBModel.h"
-
+#import "LoginViewController.h"
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
 @end
@@ -45,11 +45,24 @@
     // Override point for customization after application launch.
     [self constructDB];
     
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-    splitViewController.delegate = self;
-    return YES;
+    
+//    BOOL isLoggedIn;
+//    
+//    if  (isLoggedIn == YES){
+    
+        LoginViewController *controller = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"login"];
+        
+        self.window.rootViewController = controller;
+
+    
+    
+
+    
+//    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+//    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+//    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+//    splitViewController.delegate = self;
+   return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

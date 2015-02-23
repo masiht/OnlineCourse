@@ -32,6 +32,10 @@
     // Load chapter list
     DBModel *database = [[DBModel alloc] init];
     self.chapterList = [database chapters];
+
+
+
+
 }
 
 - (void)didReceiveMemoryWarning {
