@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KhX-hW-wgC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KhX-hW-wgC">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -198,7 +198,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="H1p-Uh-vWS" kind="presentation" id="j67-Cn-B1G"/>
+                                            <action selector="loginPressed:" destination="KhX-hW-wgC" eventType="touchUpInside" id="JDs-7m-Ox3"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jd7-eD-HHZ">
@@ -215,7 +215,7 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LoQ-4P-3yE">
                                         <rect key="frame" x="110" y="195" width="243" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Gap Logo copy" translatesAutoresizingMaskIntoConstraints="NO" id="j9I-b0-dKq">
                                         <rect key="frame" x="39" y="11" width="370" height="128"/>
@@ -237,6 +237,11 @@
                             <constraint firstItem="LlY-fx-Ix1" firstAttribute="top" secondItem="fwC-jE-hAh" secondAttribute="bottom" constant="67" id="fbR-1H-cUf"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="password" destination="LoQ-4P-3yE" id="a0n-yH-UFs"/>
+                        <outlet property="username" destination="f96-Cp-hnA" id="52J-ZO-fVE"/>
+                        <segue destination="H1p-Uh-vWS" kind="show" identifier="JumpToSplitView" id="RgU-aa-PSO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wUD-OY-bAm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

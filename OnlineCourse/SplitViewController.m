@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self presentAlertView];
+//    [self presentAlertView];
     
     
     
@@ -29,27 +29,27 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Alert View Methods
-
--(void)presentAlertView {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login" message:@"Please enter your username and password:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Login", nil];
-    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
-    UITextField *username = [alert textFieldAtIndex:0];
-    UITextField *password = [alert textFieldAtIndex:1];
-    username.placeholder = @"Enter Username";
-    password.placeholder = @"Enter Password";
-    [alert show];
-    
-}
-
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        NSLog(@"User: %@",[alertView textFieldAtIndex:0].text);
-        NSLog(@"Pass:%@",[alertView textFieldAtIndex:1].text);
-    } else { 
-        NSLog(@"Continue as a guest");
-    }
-}
+//#pragma mark - Alert View Methods
+//
+//-(void)presentAlertView {
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login" message:@"Please enter your username and password:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Login", nil];
+//    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+//    UITextField *username = [alert textFieldAtIndex:0];
+//    UITextField *password = [alert textFieldAtIndex:1];
+//    username.placeholder = @"Enter Username";
+//    password.placeholder = @"Enter Password";
+//    [alert show];
+//    
+//}
+//
+//-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if (buttonIndex == 1) {
+//        NSLog(@"User: %@",[alertView textFieldAtIndex:0].text);
+//        NSLog(@"Pass:%@",[alertView textFieldAtIndex:1].text);
+//    } else { 
+//        NSLog(@"Continue as a guest");
+//    }
+//}
 
 
 /*

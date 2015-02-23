@@ -7,12 +7,19 @@
 //
 
 #import "LoginViewController.h"
+#import "User.h"
+#import "DBModel.h"
 
 @interface LoginViewController ()
 
 @end
 
-@implementation LoginViewController
+@implementation LoginViewController {
+    NSString *user;
+    NSString *pass;
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,6 +31,41 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(IBAction)loginPressed:(id)sender {
+    BOOL passValidated = NO;
+    user = _username.text;
+    pass = _password.text;
+    
+    DBModel *database = [[DBModel alloc] init];
+    NSArray *users = [database userWithId:user];
+    
+    if (!passValidated) {
+        for (User *obj in users) {
+            if ([pass isEqualToString:obj.password]) {
+                passValidated = YES;
+                [self loginSuccessfully];
+                return;
+            }
+        }
+    }
+    [self loginFailed];
+    
+    
+}
+
+-(void)loginFailed {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please login again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+
+    
+}
+
+-(void)loginSuccessfully {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Completed" message:@"Welcome to Software merchant online course!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    [self performSegueWithIdentifier:@"JumpToSplitView" sender:self];
+
+}
 /*
 #pragma mark - Navigation
 

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SplitViewController : UISplitViewController <UIAlertViewDelegate>
+@interface SplitViewController : UISplitViewController //<UIAlertViewDelegate>
 
 @end
