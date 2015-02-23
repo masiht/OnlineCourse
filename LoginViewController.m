@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SplitViewController.h"
 #import "User.h"
 #import "DBModel.h"
 
@@ -44,6 +45,7 @@
             if ([pass isEqualToString:obj.password]) {
                 passValidated = YES;
                 [self loginSuccessfully];
+                [database setCurrentUser:user];
                 return;
             }
         }
@@ -64,17 +66,17 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Completed" message:@"Welcome to Software merchant online course!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     [self performSegueWithIdentifier:@"JumpToSplitView" sender:self];
-
+    
 }
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+/*// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-}
-*/
+}*/
+
 
 
 @end

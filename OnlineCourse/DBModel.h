@@ -19,6 +19,8 @@
 - (instancetype)init;
 - (void)createTables;
 - (void)dropTables;
+- (NSString *)currentUser;
+- (void)removeCurrentUser;
 - (NSArray *)users;
 - (NSArray *)chapters;
 - (NSArray *)journals;
@@ -27,6 +29,8 @@
 - (NSArray *)journalWitId:(NSUInteger)journalId;
 - (NSArray *)journalWithUserId:(NSString *)userId;
 - (NSArray *)journalWithChapterTitle:(NSString *)chapterTitle;
+- (NSArray *)journalWithUserId:(NSString *)userId chapterTitle:(NSString *)chapterTitle;
+- (void)setCurrentUser:(NSString *)userId;
 - (void)setUserWithId:(NSString *)userId password:(NSString *)password;
 - (void)setChapterWithTitle:(NSString *)chapterTitle chapterText:(NSString *)chapterText videoUrl:(NSString *)videoUrl;
 - (void)setJournalWithUserId:(NSString *)userId chapterTitle:(NSString *)chapterTitle comment:(NSString *)comment date:(NSDate *)date;

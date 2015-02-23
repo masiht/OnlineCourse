@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "JournalTableViewController.h"
 #import "PlayerView.h"
 #import "DBModel.h"
 #import "Chapter.h"
@@ -15,19 +16,19 @@
 
 @interface DetailViewController ()
 
-/*@property (nonatomic, strong) AVPlayer *player;*/
+@property (nonatomic, strong) NSString *url;
 
 @end
 
 @implementation DetailViewController
 
 - (void)viewDidLoad {
-  
 
-    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    DBModel *database = [[DBModel alloc] init];
+    self.userId = [database currentUser];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,14 +44,15 @@
     }
     
     // Load video
+    DBModel *database = [[DBModel alloc] init];
+    Chapter *chapter = [database chapterWithTitle:self.chapterTitle][0];
+    self.url = chapter.videoUrl;
     [self loadAsset];
 }
 
 - (void)loadAsset {
     
-    DBModel *database = [[DBModel alloc] init];
-    Chapter *chapter = [database chapterWithTitle:self.chapterTitle][0];
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:chapter.videoUrl] options:nil];
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.url] options:nil];
     NSString *key = @"duration";  // A property of AVAsset that is observed for status
     
     // Load asset from url
@@ -70,10 +72,12 @@
                                                            object:playerItem];
                 // Initialize player
                 [self.playerView setPlayer:[[AVPlayer alloc] initWithPlayerItem:playerItem]];
-                [self.playerView.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
-                [self.playerView.player play];
+                [self.playerView.player setActionAtItemEnd:AVPlayerActionAtItemEndPause];
+                [self.playerView resumePlayback];
                 UIImage *pauseImg = [UIImage imageNamed:@"pause"];
                 [self.playButton setImage:pauseImg forState:UIControlStateNormal];
+                [self.playButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+                [self.playButton addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
             }
             else {
                 NSAssert(0, @"Error loading video: %@", error);
@@ -86,25 +90,37 @@
 /* This method gets called when player reaches end */
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
 
-    // Popup for comments
+    // Replay button
+    UIImage *replayImg = [UIImage imageNamed:@"replay"];
+    [self.playButton setImage:replayImg forState:UIControlStateNormal];
+    [self.playButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [self.playButton addTarget:self action:@selector(replay:) forControlEvents:UIControlEventTouchUpInside];
+    
+    // Popup for entering comments
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Leave a comment"
                                                                    message:@"What did you think about the chapter?"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"Enter your comment";
     }];
+    void (^submitBlock)(UIAlertAction *action) = ^(UIAlertAction *action){
+        UITextField *commentField = [alert textFields][0];
+        DBModel *database = [[DBModel alloc] init];
+        [database setJournalWithUserId:self.userId chapterTitle:self.chapterTitle comment:commentField.text date:[NSDate date]];
+    };
+    UIAlertAction *dismissComment = [UIAlertAction actionWithTitle:@"Cancel"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
     UIAlertAction *submitComment = [UIAlertAction actionWithTitle:@"Submit"
                                                            style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction *action) {
-                                                             UITextField *commentField = [alert textFields][0];
-                                                             NSLog(@"Comment: %@", commentField.text);
-                                                         }];
+                                                         handler:submitBlock];
+    [alert addAction:dismissComment];
     [alert addAction:submitComment];
     [self presentViewController:alert animated:YES completion:nil];
 }
 
 /* Play button behavior */
-- (IBAction)playOrPause:(id)sender {
+- (IBAction)play:(UIButton *)sender {
 
     // No video loaded: error message
     if (self.chapterTitle == nil) {
@@ -120,22 +136,34 @@
         
         return;
     }
-    // Currently playing: pause video
-    if (self.playerView.isPlaying) {
-        [self.playerView.player pause];
-        UIImage *playImg = [UIImage imageNamed:@"play"];
-        [self.playButton setImage:playImg forState:UIControlStateNormal];
-    }
-    // Currently paused: play video
-    else {
-        [self.playerView.player play];
-        UIImage *pauseImg = [UIImage imageNamed:@"pause"];
-        [self.playButton setImage:pauseImg forState:UIControlStateNormal];
-    }
+    [self.playerView resumePlayback];
+    UIImage *pauseImg = [UIImage imageNamed:@"pause"];
+    [self.playButton setImage:pauseImg forState:UIControlStateNormal];
+    [sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [sender addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
+
+}
+
+/* Pause button behavior */
+- (IBAction)pause:(UIButton *)sender {
+    
+    [self.playerView pausePlayback];
+    UIImage *playImg = [UIImage imageNamed:@"play"];
+    [self.playButton setImage:playImg forState:UIControlStateNormal];
+    [sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [sender addTarget:self action:@selector(play:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+/* Replay button behavior */
+- (IBAction)replay:(UIButton *)sender {
+
+    [self loadAsset];
+    [sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [sender addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 /* Previous button behavior */
-- (IBAction)prevChapter:(id)sender {
+- (IBAction)prevChapter:(UIButton *)sender {
 
     // Get all chapter list
     DBModel *database = [[DBModel alloc] init];
@@ -166,7 +194,7 @@
 }
 
 /* Next button behavior */
-- (IBAction)nextChapter:(id)sender {
+- (IBAction)nextChapter:(UIButton *)sender {
     
     // Get all chapter list
     DBModel *database = [[DBModel alloc] init];
@@ -192,14 +220,24 @@
     }
     // Load next chapter
     Chapter *nextChapter = chapterList[index + 1];
-    self.chapterTitle = nextChapter.chapterTitle;
-    [self loadAsset];
+    [self setChapterTitle:nextChapter.chapterTitle];
 }
 
-- (IBAction)zoomToFullScreen:(id)sender {
+- (IBAction)zoomToFullScreen:(UIButton *)sender {
 
 
 }
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    JournalTableViewController *dest = [segue destinationViewController];
+    [dest setUserId:self.userId];
+    [dest setChapterTitle:self.chapterTitle];
+    [self pause:nil];
+}
+
 
 
 @end

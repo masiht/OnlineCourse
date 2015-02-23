@@ -10,4 +10,6 @@
 
 @interface SplitViewController : UISplitViewController //<UIAlertViewDelegate>
 
+@property (nonatomic, copy) NSString *userId;
+
 @end

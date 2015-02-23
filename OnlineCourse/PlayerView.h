@@ -19,6 +19,9 @@
 @interface PlayerView : UIView
 
 @property (nonatomic, strong) AVPlayer *player;
-@property (nonatomic, readonly) BOOL isPlaying;
+@property (nonatomic, strong) UILabel *pausedLabel;
+
+- (void)pausePlayback;
+- (void)resumePlayback;
 
 @end

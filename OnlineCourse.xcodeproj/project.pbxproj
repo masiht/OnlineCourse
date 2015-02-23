@@ -18,6 +18,7 @@
 		306236881A9522C000C18242 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306236861A9522C000C18242 /* LaunchScreen.xib */; };
 		306236941A9522C000C18242 /* OnlineCourseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 306236931A9522C000C18242 /* OnlineCourseTests.m */; };
 		426CE4831A954D090052EEB6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 426CE4821A954D090052EEB6 /* libsqlite3.dylib */; };
+		42A9EBC41A9BC02900D7EC91 /* JournalTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A9EBC31A9BC02900D7EC91 /* JournalTableViewController.m */; };
 		42C900D71A96958F00D8AA79 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900D61A96958F00D8AA79 /* User.m */; };
 		42C900DA1A9695AC00D8AA79 /* Journal.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900D91A9695AC00D8AA79 /* Journal.m */; };
 		42C900DD1A9695C200D8AA79 /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900DC1A9695C200D8AA79 /* Chapter.m */; };
@@ -56,6 +57,8 @@
 		306236921A9522C000C18242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		306236931A9522C000C18242 /* OnlineCourseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnlineCourseTests.m; sourceTree = "<group>"; };
 		426CE4821A954D090052EEB6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		42A9EBC21A9BC02900D7EC91 /* JournalTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalTableViewController.h; sourceTree = "<group>"; };
+		42A9EBC31A9BC02900D7EC91 /* JournalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JournalTableViewController.m; sourceTree = "<group>"; };
 		42C900D51A96958F00D8AA79 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		42C900D61A96958F00D8AA79 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		42C900D81A9695AC00D8AA79 /* Journal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Journal.h; sourceTree = "<group>"; };
@@ -110,17 +113,19 @@
 			children = (
 				306236781A9522C000C18242 /* AppDelegate.h */,
 				306236791A9522C000C18242 /* AppDelegate.m */,
+				30488A201A96841D003DA036 /* SplitViewController.h */,
+				30488A211A96841D003DA036 /* SplitViewController.m */,
 				3062367B1A9522C000C18242 /* MasterViewController.h */,
 				3062367C1A9522C000C18242 /* MasterViewController.m */,
 				3062367E1A9522C000C18242 /* DetailViewController.h */,
 				3062367F1A9522C000C18242 /* DetailViewController.m */,
-				30488A201A96841D003DA036 /* SplitViewController.h */,
-				30488A211A96841D003DA036 /* SplitViewController.m */,
+				42A9EBC21A9BC02900D7EC91 /* JournalTableViewController.h */,
+				42A9EBC31A9BC02900D7EC91 /* JournalTableViewController.m */,
+				22F432811A9B9F4800FC9777 /* LoginViewController.h */,
+				22F432821A9B9F4800FC9777 /* LoginViewController.m */,
 				306236811A9522C000C18242 /* Main.storyboard */,
 				42EAA4B11A97C787004BBC60 /* PlayerView.h */,
 				42EAA4B21A97C787004BBC60 /* PlayerView.m */,
-				22F432811A9B9F4800FC9777 /* LoginViewController.h */,
-				22F432821A9B9F4800FC9777 /* LoginViewController.m */,
 				42DC66D51A95267300DF6BD3 /* DBModel.h */,
 				42DC66D61A95267300DF6BD3 /* DBModel.m */,
 				42C900DB1A9695C200D8AA79 /* Chapter.h */,
@@ -264,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3062367A1A9522C000C18242 /* AppDelegate.m in Sources */,
+				42A9EBC41A9BC02900D7EC91 /* JournalTableViewController.m in Sources */,
 				42C900D71A96958F00D8AA79 /* User.m in Sources */,
 				42DC66D71A95267300DF6BD3 /* DBModel.m in Sources */,
 				30488A221A96841D003DA036 /* SplitViewController.m in Sources */,
