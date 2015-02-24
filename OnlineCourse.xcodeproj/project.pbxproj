@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22F432831A9B9F4800FC9777 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F432821A9B9F4800FC9777 /* LoginViewController.m */; };
 		30488A221A96841D003DA036 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30488A211A96841D003DA036 /* SplitViewController.m */; };
 		306236771A9522C000C18242 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 306236761A9522C000C18242 /* main.m */; };
 		3062367A1A9522C000C18242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 306236791A9522C000C18242 /* AppDelegate.m */; };
@@ -18,6 +17,7 @@
 		306236881A9522C000C18242 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306236861A9522C000C18242 /* LaunchScreen.xib */; };
 		306236941A9522C000C18242 /* OnlineCourseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 306236931A9522C000C18242 /* OnlineCourseTests.m */; };
 		426CE4831A954D090052EEB6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 426CE4821A954D090052EEB6 /* libsqlite3.dylib */; };
+		428FE2591A9CC50B00087ECC /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428FE2581A9CC50B00087ECC /* LoginViewController.m */; };
 		42A9EBC41A9BC02900D7EC91 /* JournalTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A9EBC31A9BC02900D7EC91 /* JournalTableViewController.m */; };
 		42C900D71A96958F00D8AA79 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900D61A96958F00D8AA79 /* User.m */; };
 		42C900DA1A9695AC00D8AA79 /* Journal.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C900D91A9695AC00D8AA79 /* Journal.m */; };
@@ -37,8 +37,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22F432811A9B9F4800FC9777 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../LoginViewController.h; sourceTree = "<group>"; };
-		22F432821A9B9F4800FC9777 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../LoginViewController.m; sourceTree = "<group>"; };
 		30488A201A96841D003DA036 /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		30488A211A96841D003DA036 /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		306236711A9522C000C18242 /* OnlineCourse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnlineCourse.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +55,8 @@
 		306236921A9522C000C18242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		306236931A9522C000C18242 /* OnlineCourseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnlineCourseTests.m; sourceTree = "<group>"; };
 		426CE4821A954D090052EEB6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		428FE2571A9CC50B00087ECC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		428FE2581A9CC50B00087ECC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		42A9EBC21A9BC02900D7EC91 /* JournalTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalTableViewController.h; sourceTree = "<group>"; };
 		42A9EBC31A9BC02900D7EC91 /* JournalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JournalTableViewController.m; sourceTree = "<group>"; };
 		42C900D51A96958F00D8AA79 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -121,8 +121,8 @@
 				3062367F1A9522C000C18242 /* DetailViewController.m */,
 				42A9EBC21A9BC02900D7EC91 /* JournalTableViewController.h */,
 				42A9EBC31A9BC02900D7EC91 /* JournalTableViewController.m */,
-				22F432811A9B9F4800FC9777 /* LoginViewController.h */,
-				22F432821A9B9F4800FC9777 /* LoginViewController.m */,
+				428FE2571A9CC50B00087ECC /* LoginViewController.h */,
+				428FE2581A9CC50B00087ECC /* LoginViewController.m */,
 				306236811A9522C000C18242 /* Main.storyboard */,
 				42EAA4B11A97C787004BBC60 /* PlayerView.h */,
 				42EAA4B21A97C787004BBC60 /* PlayerView.m */,
@@ -276,9 +276,9 @@
 				3062367D1A9522C000C18242 /* MasterViewController.m in Sources */,
 				306236771A9522C000C18242 /* main.m in Sources */,
 				306236801A9522C000C18242 /* DetailViewController.m in Sources */,
+				428FE2591A9CC50B00087ECC /* LoginViewController.m in Sources */,
 				42C900DD1A9695C200D8AA79 /* Chapter.m in Sources */,
 				42C900DA1A9695AC00D8AA79 /* Journal.m in Sources */,
-				22F432831A9B9F4800FC9777 /* LoginViewController.m in Sources */,
 				42EAA4B31A97C787004BBC60 /* PlayerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

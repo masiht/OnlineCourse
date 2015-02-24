@@ -131,7 +131,7 @@
                         <outlet property="playButton" destination="eAk-wX-czD" id="Gan-3I-BPu"/>
                         <outlet property="playerView" destination="Cvl-WJ-iug" id="fVz-Pl-oav"/>
                         <outlet property="prevButton" destination="b6Z-3L-zYO" id="LzW-OU-fmz"/>
-                        <outlet property="progSlider" destination="3Zm-Gp-Kqg" id="Ces-n8-SQn"/>
+                        <outlet property="slider" destination="3Zm-Gp-Kqg" id="Q5S-tj-hsI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>

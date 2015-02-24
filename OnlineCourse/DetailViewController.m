@@ -17,7 +17,7 @@
 @interface DetailViewController ()
 
 @property (nonatomic, strong) NSString *url;
-@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) NSTimer *sliderTimer;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 
 @end
@@ -34,12 +34,6 @@
     
     
     // Do any additional setup after loading the view, typically from a nib.
-    NSLog(@"View did load");
-    
-    DBModel *database = [[DBModel alloc] init];
-    self.userId = [database currentUser];
-    self.player = [[AVPlayer alloc] init];
-    self.playerView.player = self.player;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,13 +47,23 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:AVPlayerItemDidPlayToEndTimeNotification
                                                   object:nil];
-    self.player = nil;
+    self.playerView.player = nil;
+    [self.sliderTimer invalidate];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    NSLog(@"View will appear");
+    DBModel *database = [[DBModel alloc] init];
+    self.userId = [database currentUser];
+    
     [self loadAsset];
+}
+
+/* Change value for slider as video plays */
+- (void)updateSlider {
+    
+    self.slider.maximumValue = CMTimeGetSeconds(self.playerItem.duration);
+    self.slider.value = CMTimeGetSeconds(self.playerItem.currentTime);
 }
 
 - (void)setChapterTitle:(NSString *)chapterTitle {
@@ -72,20 +76,22 @@
     DBModel *database = [[DBModel alloc] init];
     Chapter *chapter = [database chapterWithTitle:self.chapterTitle][0];
     self.url = chapter.videoUrl;
-    /*[self loadAsset];*/
 }
 
 - (void)loadAsset {
-
+    
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.url] options:nil];
     NSString *key = @"duration";  // A property of AVAsset that is observed for status
-    
+    NSError __block *error;
+    AVKeyValueStatus status = [asset statusOfValueForKey:key error:&error];
+    if (status == AVKeyValueStatusLoaded) {
+        return;
+    }
     // Load asset from url
     [asset loadValuesAsynchronouslyForKeys:@[key] completionHandler:^{
         // Since loadValuesAsynchronouslyForKeys does not execute on main thread
         // we need to force it onto main thread for updating UI
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSError *error;
             AVKeyValueStatus status = [asset statusOfValueForKey:key error:&error];
             // Loaded = ready to play
             if (status == AVKeyValueStatusLoaded) {
@@ -96,14 +102,10 @@
                                                              name:AVPlayerItemDidPlayToEndTimeNotification
                                                            object:self.playerItem];
                 // Initialize player
-                [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
-                [self.player setActionAtItemEnd:AVPlayerActionAtItemEndPause];
-                self.progSlider.maximumValue = CMTimeGetSeconds(self.playerItem.duration);
-                [self.playerView resumePlayback];
-                UIImage *pauseImg = [UIImage imageNamed:@"pause"];
-                [self.playButton setImage:pauseImg forState:UIControlStateNormal];
-                [self.playButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-                [self.playButton addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
+                self.playerView.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+                [self.playerView.player setActionAtItemEnd:AVPlayerActionAtItemEndPause];
+                
+                [self play:self.playButton];
             }
             else {
                 NSAssert(0, @"Error loading video: %@", error);
@@ -116,6 +118,9 @@
 /* This method gets called when player reaches end */
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
 
+    // Stop slider timer
+    [self updateSlider];
+    [self.sliderTimer invalidate];
     // Replay button
     UIImage *replayImg = [UIImage imageNamed:@"replay"];
     [self.playButton setImage:replayImg forState:UIControlStateNormal];
@@ -145,13 +150,13 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-/* Jump with progress bar */
-/* TODO: slide with the vide progress & fix malfunction after coming back from journal */
+/* Seek with progress bar */
 - (IBAction)seek:(UISlider *)sender {
 
     Float64 value = sender.value;
     CMTime jumpTo = CMTimeMakeWithSeconds(value, 1);
-    [self.player seekToTime:jumpTo];
+    [self.playerView.player seekToTime:jumpTo];
+    [self updateSlider];
 }
 
 /* Play button behavior */
@@ -171,9 +176,16 @@
         
         return;
     }
+    
+    // Set button image to that of pause button
     [self.playerView resumePlayback];
     UIImage *pauseImg = [UIImage imageNamed:@"pause"];
     [self.playButton setImage:pauseImg forState:UIControlStateNormal];
+    
+    // Instantiate slider timer and bind pause action to button
+    self.sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self
+                                                      selector:@selector(updateSlider)
+                                                      userInfo:nil repeats:YES];
     [sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
     [sender addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -182,9 +194,13 @@
 /* Pause button behavior */
 - (IBAction)pause:(UIButton *)sender {
     
+    // Set button image to that of play button
     [self.playerView pausePlayback];
     UIImage *playImg = [UIImage imageNamed:@"play"];
     [self.playButton setImage:playImg forState:UIControlStateNormal];
+    
+    // Invalidate slider timer and bind play action to button
+    [self.sliderTimer invalidate];
     [sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
     [sender addTarget:self action:@selector(play:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -192,9 +208,8 @@
 /* Replay button behavior */
 - (IBAction)replay:(UIButton *)sender {
 
-    [self loadAsset];
-    /*[sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-    [sender addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];*/
+    // Simply reload the view
+    [self viewWillAppear:YES];
 }
 
 /* Previous button behavior */

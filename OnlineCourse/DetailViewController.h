@@ -19,7 +19,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *playButton;
 @property (nonatomic, weak) IBOutlet UIButton *prevButton;
 @property (nonatomic, weak) IBOutlet UIButton *nextButton;
-@property (nonatomic, weak) IBOutlet UISlider *progSlider;
+@property (nonatomic, weak) IBOutlet UISlider *slider;
 @property (nonatomic, copy) NSString *chapterTitle;
 @property (nonatomic, copy) NSString *userId;
 
