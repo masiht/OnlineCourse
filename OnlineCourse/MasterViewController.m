@@ -26,6 +26,8 @@
 }
 
 - (void)viewDidLoad {
+
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
@@ -33,6 +35,7 @@
     DBModel *database = [[DBModel alloc] init];
     self.chapterList = [database chapters];
 
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.204f green:0.282f blue:0.369f alpha:1.0f];
 
 
 
@@ -71,6 +74,12 @@
 
     Chapter *chapter = self.chapterList[indexPath.row];
     cell.textLabel.text = chapter.chapterTitle;
+    cell.textLabel.font = [UIFont fontWithName:@"Kailasa" size:22];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.backgroundColor = [UIColor colorWithRed:0.204f green:0.282f blue:0.369f alpha:1.0f];
+    
+    
+    
     
     return cell;
 }

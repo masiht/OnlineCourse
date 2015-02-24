@@ -51,15 +51,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [self constructDB];
-    
-    
-//    BOOL isLoggedIn;
-//    
-//    if  (isLoggedIn == YES){
+
     
         LoginViewController *controller = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"login"];
         
         self.window.rootViewController = controller;
+
+    
 
     
     

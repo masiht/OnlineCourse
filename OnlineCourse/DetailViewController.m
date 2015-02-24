@@ -27,6 +27,12 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+   
+    //self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.204f green:0.282f blue:0.369f alpha:1.0f];
+    UIImage * logoImage = [UIImage imageNamed:@"logo"];
+    self.navigationItem.titleView = [[UIImageView alloc]initWithImage:logoImage];
+    
+    
     // Do any additional setup after loading the view, typically from a nib.
     NSLog(@"View did load");
     
