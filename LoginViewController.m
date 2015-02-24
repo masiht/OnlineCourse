@@ -71,11 +71,14 @@
 
 #pragma mark - Navigation
 
-/*// In a storyboard-based application, you will often want to do a little preparation before navigation
+// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}*/
+    // Set SplitViewController's delegate to AppDelegate and show leftBarButtonItem
+    UISplitViewController *splitViewController = (UISplitViewController *)[segue destinationViewController];
+    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+    splitViewController.delegate = (id <UISplitViewControllerDelegate>)[[UIApplication sharedApplication] delegate];
+}
 
 
 

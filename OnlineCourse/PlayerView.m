@@ -25,6 +25,11 @@
     [(AVPlayerLayer *)[self layer] setPlayer:player];
 }
 
+- (BOOL)isPlaying {
+
+    return self.player.rate;
+}
+
 - (void)pausePlayback {
 
     self.pausedLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 150, 32)];

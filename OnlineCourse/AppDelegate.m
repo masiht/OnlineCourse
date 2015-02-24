@@ -25,6 +25,7 @@
     
     [database removeCurrentUser];
     
+    [database setUserWithId:@"" password:@""];
     [database setUserWithId:@"Di" password:@"di"];
     [database setUserWithId:@"Masih" password:@"masih"];
     [database setUserWithId:@"Merritt" password:@"merritt"];
@@ -41,10 +42,10 @@
     [database setChapterWithTitle:@"Chapter 2 Section 2" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_2/prog_index.m3u8"];
     [database setChapterWithTitle:@"Chapter 2 Section 3" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_3/prog_index.m3u8"];
     
-    [database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 0 Section 1" comment:@"WTH did I just read" date:[NSDate dateWithTimeIntervalSince1970:1424361502]];
+    /*[database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 0 Section 1" comment:@"WTH did I just read" date:[NSDate dateWithTimeIntervalSince1970:1424361502]];
     [database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 0 Section 2" comment:@"I did not understand a thing" date:[NSDate dateWithTimeIntervalSince1970:1424376502]];
     [database setJournalWithUserId:@"Masih" chapterTitle:@"Chapter 1 Section 1" comment:@"Is this really chapter 1?" date:[NSDate dateWithTimeIntervalSince1970:1424373863]];
-    [database setJournalWithUserId:@"Merritt" chapterTitle:@"Chapter 2 Section 3" comment:@"Where is chapter 1?" date:[NSDate dateWithTimeIntervalSince1970:1424291939]];
+    [database setJournalWithUserId:@"Merritt" chapterTitle:@"Chapter 2 Section 3" comment:@"Where is chapter 1?" date:[NSDate dateWithTimeIntervalSince1970:1424291939]];*/
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

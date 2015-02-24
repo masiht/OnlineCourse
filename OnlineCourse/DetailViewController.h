@@ -23,6 +23,7 @@
 @property (nonatomic, copy) NSString *chapterTitle;
 @property (nonatomic, copy) NSString *userId;
 
+- (IBAction)seek:(UISlider *)sender;
 - (IBAction)play:(UIButton *)sender;
 - (IBAction)pause:(UIButton *)sender;
 - (IBAction)replay:(UIButton *)sender;

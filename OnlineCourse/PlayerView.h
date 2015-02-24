@@ -21,6 +21,7 @@
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) UILabel *pausedLabel;
 
+- (BOOL)isPlaying;
 - (void)pausePlayback;
 - (void)resumePlayback;
 

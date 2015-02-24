@@ -17,6 +17,8 @@
 @interface DetailViewController ()
 
 @property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayerItem *playerItem;
 
 @end
 
@@ -26,15 +28,32 @@
 
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"View did load");
     
     DBModel *database = [[DBModel alloc] init];
     self.userId = [database currentUser];
+    self.player = [[AVPlayer alloc] init];
+    self.playerView.player = self.player;
 }
 
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:nil];
+    self.player = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    NSLog(@"View will appear");
+    [self loadAsset];
 }
 
 - (void)setChapterTitle:(NSString *)chapterTitle {
@@ -47,11 +66,11 @@
     DBModel *database = [[DBModel alloc] init];
     Chapter *chapter = [database chapterWithTitle:self.chapterTitle][0];
     self.url = chapter.videoUrl;
-    [self loadAsset];
+    /*[self loadAsset];*/
 }
 
 - (void)loadAsset {
-    
+
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.url] options:nil];
     NSString *key = @"duration";  // A property of AVAsset that is observed for status
     
@@ -64,15 +83,16 @@
             AVKeyValueStatus status = [asset statusOfValueForKey:key error:&error];
             // Loaded = ready to play
             if (status == AVKeyValueStatusLoaded) {
-                AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
+                self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
                 // Register for notification when reaches end
                 [[NSNotificationCenter defaultCenter] addObserver:self
                                                          selector:@selector(playerItemDidReachEnd:)
                                                              name:AVPlayerItemDidPlayToEndTimeNotification
-                                                           object:playerItem];
+                                                           object:self.playerItem];
                 // Initialize player
-                [self.playerView setPlayer:[[AVPlayer alloc] initWithPlayerItem:playerItem]];
-                [self.playerView.player setActionAtItemEnd:AVPlayerActionAtItemEndPause];
+                [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
+                [self.player setActionAtItemEnd:AVPlayerActionAtItemEndPause];
+                self.progSlider.maximumValue = CMTimeGetSeconds(self.playerItem.duration);
                 [self.playerView resumePlayback];
                 UIImage *pauseImg = [UIImage imageNamed:@"pause"];
                 [self.playButton setImage:pauseImg forState:UIControlStateNormal];
@@ -119,6 +139,15 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+/* Jump with progress bar */
+/* TODO: slide with the vide progress & fix malfunction after coming back from journal */
+- (IBAction)seek:(UISlider *)sender {
+
+    Float64 value = sender.value;
+    CMTime jumpTo = CMTimeMakeWithSeconds(value, 1);
+    [self.player seekToTime:jumpTo];
+}
+
 /* Play button behavior */
 - (IBAction)play:(UIButton *)sender {
 
@@ -158,8 +187,8 @@
 - (IBAction)replay:(UIButton *)sender {
 
     [self loadAsset];
-    [sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-    [sender addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
+    /*[sender removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [sender addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];*/
 }
 
 /* Previous button behavior */
@@ -194,6 +223,7 @@
 }
 
 /* Next button behavior */
+/* TODO: NEXT REFUSES TO WORK! */
 - (IBAction)nextChapter:(UIButton *)sender {
     
     // Get all chapter list
@@ -235,7 +265,9 @@
     JournalTableViewController *dest = [segue destinationViewController];
     [dest setUserId:self.userId];
     [dest setChapterTitle:self.chapterTitle];
-    [self pause:nil];
+    if ([self.playerView isPlaying]) {
+        [self pause:self.playButton];
+    }
 }
 
 
