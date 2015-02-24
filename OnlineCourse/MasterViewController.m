@@ -8,9 +8,8 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-#import "DBModel.h"
+#import "Database.h"
 #import "Chapter.h"
-#import "CurrentData.h"
 
 @interface MasterViewController ()
 
@@ -28,18 +27,13 @@
 
 - (void)viewDidLoad {
 
-    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     // Load chapter list
-    DBModel *database = [[DBModel alloc] init];
-    self.chapterList = [database chapters];
+    self.chapterList = [[Database sharedData] chapters];
 
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.204f green:0.282f blue:0.369f alpha:1.0f];
-
-
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,6 +44,7 @@
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         Chapter *chapter = self.chapterList[indexPath.row];
@@ -85,7 +80,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     Chapter *selectedChapter = self.chapterList[indexPath.row];
-    [CurrentData sharedData].chapterTitle = selectedChapter.chapterTitle;
+    [Database sharedData].currentChapterTitle = selectedChapter.chapterTitle;
 }
 
 @end

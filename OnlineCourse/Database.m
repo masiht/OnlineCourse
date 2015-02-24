@@ -6,12 +6,22 @@
 //  Copyright (c) 2015 Masih. All rights reserved.
 //
 
-#import "DBModel.h"
+#import "Database.h"
 #import "User.h"
 #import "Chapter.h"
 #import "Journal.h"
 
-@implementation DBModel
+@implementation Database
+
++ (instancetype)sharedData {
+
+    static Database *sharedData = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedData = [[self alloc] init];
+    });
+    return sharedData;
+}
 
 /* Init method */
 - (instancetype)init {
@@ -90,144 +100,94 @@
     sqlite3_close(db);
 }
 
-/* Get current logged in user */
-/*- (NSString *)currentUser {
+- (User *)currentUser {
 
-    NSString *selectQuery = @"SELECT * FROM CURRENT_USER;";
-    
-    int result = sqlite3_open([dbPath UTF8String], &db);
-    [self checkOk:result withMessage:@"Failed to open database."];
-    
-    // Retrieve data
-    sqlite3_stmt *statement;
-    result = sqlite3_prepare_v2(db, [selectQuery UTF8String], -1, &statement, nil);
-    [self checkOk:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", selectQuery]];
-    
-    NSString *currentUser;
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        currentUser = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+    if (self.currentUserId)
+        return [self userWithId:self.currentUserId][0];
+    return nil;
+}
+
+- (Chapter *)currentChapter {
+
+    if (self.currentChapterTitle) {
+        return [self chapterWithTitle:self.currentChapterTitle][0];
     }
-    sqlite3_finalize(statement);
-    sqlite3_close(db);
-    
-    return currentUser;
-}*/
-
-/* Log out */
-/*- (void)removeCurrentUser {
-
-    NSString *deleteQuery = @"DELETE FROM CURRENT_USER;";
-    int result = sqlite3_open([dbPath UTF8String], &db);
-    [self checkOk:result withMessage:@"Failed to open database."];
-    
-    sqlite3_stmt *statement;
-    result = sqlite3_prepare_v2(db, [deleteQuery UTF8String], -1, &statement, nil);
-    [self checkOk:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", deleteQuery]];
-    
-    char *errorMsg = NULL;
-    result = sqlite3_step(statement);
-    [self checkDone:result withMessage:[NSString stringWithFormat:@"Error updating table: %s", errorMsg]];
-    
-    sqlite3_finalize(statement);
-    sqlite3_close(db);
-}*/
+    return nil;
+}
 
 /* Returns a complete user list */
 - (NSArray *)users {
 
-    return [self userWithColumn:nil equalToValue:nil];
+    return [self userWithColumns:nil equalToValues:nil];
 }
 
 /* Returns a complete chapter list */
 - (NSArray *)chapters {
 
-    return [self chapterWithColumn:nil equalToValue:nil];
+    return [self chapterWithColumns:nil equalToValues:nil];
 }
 
 /* Returns a complete journal list */
 - (NSArray *)journals {
 
-    return [self journalWithColumn:nil equalToValue:nil];
+    return [self journalWithColumns:nil equalToValues:nil];
 }
 
 /* Returns one or zero user with given id */
 - (NSArray *)userWithId:(NSString *)userId {
     
-    return [self userWithColumn:@"USER_ID" equalToValue:userId];
+    return [self userWithColumns:@[@"USER_ID"] equalToValues:@[userId]];
 }
 
 /* Returns one or zero chapter with given title */
 - (NSArray *)chapterWithTitle:(NSString *)chapterTitle {
     
-    return [self chapterWithColumn:@"CHAPTER_TITLE" equalToValue:chapterTitle];
+    return [self chapterWithColumns:@[@"CHAPTER_TITLE"] equalToValues:@[chapterTitle]];
+}
+
+- (NSArray *)journalWithCurrentUser {
+
+    if (self.currentUserId)
+        return [self journalWithUserId:self.currentUserId];
+    return nil;
+}
+
+- (NSArray *)journalWithCurrentChapter {
+
+    if (self.currentChapterTitle)
+        return [self journalWithChapterTitle:self.currentChapterTitle];
+    return nil;
+}
+
+- (NSArray *)journalWithCurrentUserAndChapter {
+    
+    if (self.currentChapterTitle && self.currentUserId)
+        return [self journalWithUserId:self.currentUserId chapterTitle:self.currentChapterTitle];
+    return nil;
 }
 
 /* Returns one or zero journal with given id */
-- (NSArray *)journalWitId:(NSUInteger)journalId {
+- (NSArray *)journalWithId:(NSUInteger)journalId {
     
-    return [self journalWithColumn:@"JOURNAL_ID" equalToValue:@(journalId)];
+    return [self journalWithColumns:@[@"JOURNAL_ID"] equalToValues:@[@(journalId)]];
 }
 
 /* Returns a list of journals associated with the user */
 - (NSArray *)journalWithUserId:(NSString *)userId {
     
-    return [self journalWithColumn:@"USER_ID" equalToValue:userId];
+    return [self journalWithColumns:@[@"USER_ID"] equalToValues:@[userId]];
 }
 
 /* Returns a list of journals associated with the chapter */
 - (NSArray *)journalWithChapterTitle:(NSString *)chapterTitle {
 
-    return [self journalWithColumn:@"CHAPTER_TITLE" equalToValue:chapterTitle];
+    return [self journalWithColumns:@[@"CHAPTER_TITLE"] equalToValues:@[chapterTitle]];
 }
 
 /* Returns a list of journals associated with the user and chapter */
 - (NSArray *)journalWithUserId:(NSString *)userId chapterTitle:(NSString *)chapterTitle {
     
-    NSString *selectQuery = [NSString stringWithFormat:@"SELECT * FROM JOURNAL WHERE USER_ID = '%@' AND CHAPTER_TITLE = '%@';", userId, chapterTitle];
-    
-    int result = sqlite3_open([dbPath UTF8String], &db);
-    [self checkOk:result withMessage:@"Failed to open database."];
-    
-    // Retrieve data
-    sqlite3_stmt *statement;
-    result = sqlite3_prepare_v2(db, [selectQuery UTF8String], -1, &statement, nil);
-    [self checkOk:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", selectQuery]];
-    
-    NSMutableArray *journalList = [NSMutableArray array];
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        NSUInteger journalId = sqlite3_column_int(statement, 0);
-        NSString *userId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
-        NSString *chapterTitle = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2) ];
-        NSString *comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3) ];
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:sqlite3_column_int(statement, 4)];
-        Journal *j = [[Journal alloc] initWithJournalId:journalId userId:userId chapterTitle:chapterTitle comment:comment date:date];
-        [journalList addObject:j];
-    }
-    sqlite3_finalize(statement);
-    sqlite3_close(db);
-    
-    return [NSArray arrayWithArray:journalList];
-}
-
-/* Set current user */
-- (void)setCurrentUser:(NSString *)userId {
-    
-    NSString *updateQuery = @"INSERT OR REPLACE INTO CURRENT_USER (CURRENT_USER) VALUES (?);";
-    int result = sqlite3_open([dbPath UTF8String], &db);
-    [self checkOk:result withMessage:@"Failed to open database."];
-    
-    sqlite3_stmt *statement;
-    result = sqlite3_prepare_v2(db, [updateQuery UTF8String], -1, &statement, nil);
-    [self checkOk:result withMessage:[NSString stringWithFormat:@"Error preparing for query: %@", updateQuery]];
-    
-    char *errorMsg = NULL;
-    sqlite3_bind_text(statement, 1, [userId UTF8String], -1, nil);
-    
-    result = sqlite3_step(statement);
-    [self checkDone:result withMessage:[NSString stringWithFormat:@"Error updating table: %s", errorMsg]];
-    
-    sqlite3_finalize(statement);
-    sqlite3_close(db);
+    return [self journalWithColumns:@[@"USER_ID", @"CHAPTER_TITLE"] equalToValues:@[userId, chapterTitle]];
 }
 
 /* Insert user, or update if exists */
@@ -300,14 +260,21 @@
 }
 
 /* Helper method to return a list of users that satisfies 'WHERE columnName = value' */
-- (NSArray *)userWithColumn:(NSString *)columnName equalToValue:(id)value {
+- (NSArray *)userWithColumns:(NSArray *)columnName equalToValues:(NSArray *)value {
 
     NSString *selectQuery = @"SELECT * FROM USER";
-    if (value && columnName)
-        selectQuery = [selectQuery stringByAppendingFormat:@" WHERE %@ = '%@';", columnName, value];
-    else
-        selectQuery = [selectQuery stringByAppendingString:@";"];
-    
+    if (value && columnName) {
+        NSAssert(columnName.count == value.count, @"Arguments needs to be of same count.");
+        selectQuery = [selectQuery stringByAppendingString:@" WHERE "];
+        for (int i = 0; i < columnName.count; i ++) {
+            selectQuery = [selectQuery stringByAppendingFormat:@"%@ = '%@'", columnName[i], value[i]];
+            if (i < columnName.count - 1) {
+                selectQuery = [selectQuery stringByAppendingString:@" AND "];
+            }
+        }
+    }
+    selectQuery = [selectQuery stringByAppendingString:@";"];
+
     int result = sqlite3_open([dbPath UTF8String], &db);
     [self checkOk:result withMessage:@"Failed to open database."];
     
@@ -330,14 +297,21 @@
 }
 
 /* Helper method to return a list of chapters that satisfies 'WHERE columnName = value' */
-- (NSArray *)chapterWithColumn:(NSString *)columnName equalToValue:(id)value {
+- (NSArray *)chapterWithColumns:(NSArray *)columnName equalToValues:(NSArray *)value {
     
     NSString *selectQuery = @"SELECT * FROM CHAPTER";
-    if (value && columnName)
-        selectQuery = [selectQuery stringByAppendingFormat:@" WHERE %@ = '%@';", columnName, value];
-    else
-        selectQuery = [selectQuery stringByAppendingString:@";"];
-    
+    if (value && columnName) {
+        NSAssert(columnName.count == value.count, @"Arguments needs to be of same count.");
+        selectQuery = [selectQuery stringByAppendingString:@" WHERE "];
+        for (int i = 0; i < columnName.count; i ++) {
+            selectQuery = [selectQuery stringByAppendingFormat:@"%@ = '%@'", columnName[i], value[i]];
+            if (i < columnName.count - 1) {
+                selectQuery = [selectQuery stringByAppendingString:@" AND "];
+            }
+        }
+    }
+    selectQuery = [selectQuery stringByAppendingString:@";"];
+
     int result = sqlite3_open([dbPath UTF8String], &db);
     [self checkOk:result withMessage:@"Failed to open database."];
     
@@ -361,13 +335,20 @@
 }
 
 /* Helper method to return a list of journals that satisfies 'WHERE columnName = value' */
-- (NSArray *)journalWithColumn:(NSString *)columnName equalToValue:(id)value {
+- (NSArray *)journalWithColumns:(NSArray *)columnName equalToValues:(NSArray *)value {
     
     NSString *selectQuery = @"SELECT * FROM JOURNAL";
-    if (value && columnName)
-        selectQuery = [selectQuery stringByAppendingFormat:@" WHERE %@ = '%@';", columnName, value];
-    else
-        selectQuery = [selectQuery stringByAppendingString:@";"];
+    if (value && columnName) {
+        NSAssert(columnName.count == value.count, @"Arguments needs to be of same count.");
+        selectQuery = [selectQuery stringByAppendingString:@" WHERE "];
+        for (int i = 0; i < columnName.count; i ++) {
+            selectQuery = [selectQuery stringByAppendingFormat:@"%@ = '%@'", columnName[i], value[i]];
+            if (i < columnName.count - 1) {
+                selectQuery = [selectQuery stringByAppendingString:@" AND "];
+            }
+        }
+    }
+    selectQuery = [selectQuery stringByAppendingString:@";"];
     
     int result = sqlite3_open([dbPath UTF8String], &db);
     [self checkOk:result withMessage:@"Failed to open database."];

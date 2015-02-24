@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DetailViewController.h"
-#import "DBModel.h"
+#import "Database.h"
 #import "LoginViewController.h"
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -19,7 +19,7 @@
 /* Initialize database and populate data */
 - (void)constructDB {
 
-    DBModel *database = [[DBModel alloc] init];
+    Database *database = [Database sharedData];
     /*[database dropTables];*/
     [database createTables];
     
@@ -32,13 +32,13 @@
     [database setUserWithId:@"Cassandra" password:@"cassandra"];
     [database setUserWithId:@"Ossama" password:@"ossama"];
     
-    [database setChapterWithTitle:@"Chapter 0 Section 1" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH00/SECTION_1/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 0 Section 2" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH00/SECTION_2/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 0 Section 3" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH00/SECTION_3/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 1 Section 1" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH01/SECTION_1/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 2 Section 1" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_1/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 2 Section 2" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_2/prog_index.m3u8"];
-    [database setChapterWithTitle:@"Chapter 2 Section 3" chapterText:@"" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_3/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 0 Section 1" chapterText:@"A description on the chapter" videoUrl:@"http://www.softwaremerchant.com/stream/CH00/SECTION_1/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 0 Section 2" chapterText:@"A description on the chapter" videoUrl:@"http://www.softwaremerchant.com/stream/CH00/SECTION_2/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 0 Section 3" chapterText:@"A description on the chapter" videoUrl:@"http://www.softwaremerchant.com/stream/CH00/SECTION_3/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 1 Section 1" chapterText:@"A description on the chapter" videoUrl:@"http://www.softwaremerchant.com/stream/CH01/SECTION_1/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 2 Section 1" chapterText:@"A description on the chapter" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_1/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 2 Section 2" chapterText:@"A description on the chapter" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_2/prog_index.m3u8"];
+    [database setChapterWithTitle:@"Chapter 2 Section 3" chapterText:@"A description on the chapter" videoUrl:@"http://www.softwaremerchant.com/stream/CH02/SECTION_3/prog_index.m3u8"];
     
     /*[database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 0 Section 1" comment:@"WTH did I just read" date:[NSDate dateWithTimeIntervalSince1970:1424361502]];
     [database setJournalWithUserId:@"Di" chapterTitle:@"Chapter 0 Section 2" comment:@"I did not understand a thing" date:[NSDate dateWithTimeIntervalSince1970:1424376502]];
@@ -50,22 +50,10 @@
     // Override point for customization after application launch.
     [self constructDB];
 
-    
-        LoginViewController *controller = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"login"];
-        
-        self.window.rootViewController = controller;
+    LoginViewController *controller = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"login"];
+    self.window.rootViewController = controller;
 
-    
-
-    
-    
-
-    
-//    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-//    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-//    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-//    splitViewController.delegate = self;
-   return YES;
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

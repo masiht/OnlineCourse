@@ -18,8 +18,11 @@
 @property (nonatomic, weak) IBOutlet UIButton *prevButton;
 @property (nonatomic, weak) IBOutlet UIButton *nextButton;
 @property (nonatomic, weak) IBOutlet UISlider *slider;
+@property (nonatomic, weak) IBOutlet UILabel *chapterTitleLabel;
+@property (nonatomic, weak) IBOutlet UITextView *chapterDescription;
+@property (nonatomic, assign) BOOL willPause;
+@property (nonatomic, assign) BOOL willRestart;
 @property (nonatomic, copy) NSString *chapterTitle;
-/*@property (nonatomic, copy) NSString *userId;*/
 
 - (IBAction)seek:(UISlider *)sender;
 - (IBAction)play:(UIButton *)sender;

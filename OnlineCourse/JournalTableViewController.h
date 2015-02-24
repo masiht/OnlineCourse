@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class DetailViewController;
+
 @interface JournalTableViewController : UITableViewController
 
-/*@property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *chapterTitle;*/
+@property (nonatomic, weak) DetailViewController *parentView;
 
 - (IBAction)showAllJournal:(UIBarButtonItem *)sender;
 - (IBAction)showCurrentChapter:(UIBarButtonItem *)sender;

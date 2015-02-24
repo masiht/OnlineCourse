@@ -7,11 +7,11 @@
 //
 
 #import "JournalTableViewController.h"
-#import "DBModel.h"
+#import "DetailViewController.h"
+#import "Database.h"
 #import "User.h"
 #import "Chapter.h"
 #import "Journal.h"
-#import "CurrentData.h"
 
 @interface JournalTableViewController ()
 
@@ -24,8 +24,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = [NSString stringWithFormat:@"%@'s Journal", [CurrentData sharedData].userId];
+    self.title = [NSString stringWithFormat:@"%@'s Journal", [Database sharedData].currentUserId];
     [self showAllJournal:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    self.parentView.willPause = YES;
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,19 +41,15 @@
 
 - (IBAction)showAllJournal:(UIBarButtonItem *)sender {
     
-    DBModel *database = [[DBModel alloc] init];
-    self.journalList = [database journalWithUserId:[CurrentData sharedData].userId];
+    self.journalList = [[Database sharedData] journalWithCurrentUser];
     [self.tableView reloadData];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Current Chapter" style:UIBarButtonItemStylePlain target:self action:@selector(showCurrentChapter:)];
 }
 
 - (IBAction)showCurrentChapter:(UIBarButtonItem *)sender {
-    
-    NSString *userId = [CurrentData sharedData].userId;
-    NSString *chapterTitle = [CurrentData sharedData].chapterTitle;
-    if (userId && chapterTitle) {
-        DBModel *database = [[DBModel alloc] init];
-        self.journalList = [database journalWithUserId:userId chapterTitle:chapterTitle];
+
+    self.journalList = [[Database sharedData] journalWithCurrentUserAndChapter];
+    if (self.journalList) {
         [self.tableView reloadData];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"All Chapters" style:UIBarButtonItemStylePlain target:self action:@selector(showAllJournal:)];
     }
@@ -99,15 +101,15 @@
 }
 
 
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    DetailViewController *dest = [segue destinationViewController];
+    dest.willPause = YES;
 }
-*/
+
 
 @end

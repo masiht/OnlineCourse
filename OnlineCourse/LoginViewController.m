@@ -7,10 +7,8 @@
 //
 
 #import "LoginViewController.h"
-#import "SplitViewController.h"
 #import "User.h"
-#import "DBModel.h"
-#import "CurrentData.h"
+#import "Database.h"
 
 @interface LoginViewController ()
 
@@ -20,8 +18,6 @@
     NSString *user;
     NSString *pass;
 }
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,8 +34,7 @@
     user = _username.text;
     pass = _password.text;
     
-    DBModel *database = [[DBModel alloc] init];
-    NSArray *users = [database userWithId:user];
+    NSArray *users = [[Database sharedData] userWithId:user];
     
     if (!passValidated) {
         for (User *obj in users) {
@@ -51,8 +46,6 @@
         }
     }
     [self loginFailed];
-    
-    
 }
 
 -(void)loginFailed {
@@ -65,7 +58,7 @@
 -(void)loginSuccessfully {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Completed" message:@"Welcome to Software merchant online course!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
-    [CurrentData sharedData].userId = user;
+    [Database sharedData].currentUserId = user;
     [self performSegueWithIdentifier:@"JumpToSplitView" sender:self];
     
 }

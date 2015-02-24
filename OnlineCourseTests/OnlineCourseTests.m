@@ -8,20 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "DBModel.h"
+#import "Database.h"
 
 @interface OnlineCourseTests : XCTestCase
 
 @end
 
 @implementation OnlineCourseTests {
-    DBModel *database;
+    Database *database;
 }
 
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    database = [[DBModel alloc] init];
+    database = [Database sharedData];
 }
 
 - (void)tearDown {
