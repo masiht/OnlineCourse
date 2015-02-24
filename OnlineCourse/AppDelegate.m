@@ -23,8 +23,6 @@
     /*[database dropTables];*/
     [database createTables];
     
-    [database removeCurrentUser];
-    
     [database setUserWithId:@"" password:@""];
     [database setUserWithId:@"Di" password:@"di"];
     [database setUserWithId:@"Masih" password:@"masih"];

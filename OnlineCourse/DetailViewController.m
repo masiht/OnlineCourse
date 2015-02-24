@@ -12,6 +12,7 @@
 #import "DBModel.h"
 #import "Chapter.h"
 #import "User.h"
+#import "CurrentData.h"
 
 
 @interface DetailViewController ()
@@ -53,8 +54,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    DBModel *database = [[DBModel alloc] init];
-    self.userId = [database currentUser];
+    /*self.userId = [database currentUser];*/
     
     [self loadAsset];
 }
@@ -70,12 +70,14 @@
     
     if (![_chapterTitle isEqualToString:chapterTitle]) {
         _chapterTitle = chapterTitle;
+        [CurrentData sharedData].chapterTitle = _chapterTitle;
     }
     
     // Load video
     DBModel *database = [[DBModel alloc] init];
     Chapter *chapter = [database chapterWithTitle:self.chapterTitle][0];
     self.url = chapter.videoUrl;
+    [CurrentData sharedData].playback = CMTimeMake(0, 1);
 }
 
 - (void)loadAsset {
@@ -104,7 +106,8 @@
                 // Initialize player
                 self.playerView.player = [AVPlayer playerWithPlayerItem:self.playerItem];
                 [self.playerView.player setActionAtItemEnd:AVPlayerActionAtItemEndPause];
-                
+                [self.playerView.player seekToTime:[CurrentData sharedData].playback];
+                // Simulate a tap on play button
                 [self play:self.playButton];
             }
             else {
@@ -121,6 +124,8 @@
     // Stop slider timer
     [self updateSlider];
     [self.sliderTimer invalidate];
+    // Reset current playback time
+    [CurrentData sharedData].playback = CMTimeMake(0, 1);
     // Replay button
     UIImage *replayImg = [UIImage imageNamed:@"replay"];
     [self.playButton setImage:replayImg forState:UIControlStateNormal];
@@ -137,7 +142,7 @@
     void (^submitBlock)(UIAlertAction *action) = ^(UIAlertAction *action){
         UITextField *commentField = [alert textFields][0];
         DBModel *database = [[DBModel alloc] init];
-        [database setJournalWithUserId:self.userId chapterTitle:self.chapterTitle comment:commentField.text date:[NSDate date]];
+        [database setJournalWithUserId:[CurrentData sharedData].userId chapterTitle:self.chapterTitle comment:commentField.text date:[NSDate date]];
     };
     UIAlertAction *dismissComment = [UIAlertAction actionWithTitle:@"Cancel"
                                                              style:UIAlertActionStyleCancel
@@ -208,8 +213,7 @@
 /* Replay button behavior */
 - (IBAction)replay:(UIButton *)sender {
 
-    // Simply reload the view
-    [self viewWillAppear:YES];
+    [self loadAsset];
 }
 
 /* Previous button behavior */
@@ -239,12 +243,11 @@
     }
     // Load next chapter
     Chapter *prevChapter = chapterList[index - 1];
-    self.chapterTitle = prevChapter.chapterTitle;
+    self.chapterTitle = prevChapter.chapterTitle;;
     [self loadAsset];
 }
 
 /* Next button behavior */
-/* TODO: NEXT REFUSES TO WORK! */
 - (IBAction)nextChapter:(UIButton *)sender {
     
     // Get all chapter list
@@ -272,22 +275,22 @@
     // Load next chapter
     Chapter *nextChapter = chapterList[index + 1];
     [self setChapterTitle:nextChapter.chapterTitle];
+    [self loadAsset];
 }
 
+/* TODO: fullscreen action */
 - (IBAction)zoomToFullScreen:(UIButton *)sender {
 
 
 }
 
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    JournalTableViewController *dest = [segue destinationViewController];
-    [dest setUserId:self.userId];
-    [dest setChapterTitle:self.chapterTitle];
-    if ([self.playerView isPlaying]) {
-        [self pause:self.playButton];
+    if ([segue.identifier isEqualToString:@"showJournal"]) {
+        [CurrentData sharedData].playback = self.playerItem.currentTime;
     }
 }
 

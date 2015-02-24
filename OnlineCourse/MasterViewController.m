@@ -10,6 +10,7 @@
 #import "DetailViewController.h"
 #import "DBModel.h"
 #import "Chapter.h"
+#import "CurrentData.h"
 
 @interface MasterViewController ()
 
@@ -78,10 +79,13 @@
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.backgroundColor = [UIColor colorWithRed:0.204f green:0.282f blue:0.369f alpha:1.0f];
     
-    
-    
-    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    Chapter *selectedChapter = self.chapterList[indexPath.row];
+    [CurrentData sharedData].chapterTitle = selectedChapter.chapterTitle;
 }
 
 @end

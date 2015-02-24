@@ -11,12 +11,11 @@
 #import "User.h"
 #import "Chapter.h"
 #import "Journal.h"
+#import "CurrentData.h"
 
 @interface JournalTableViewController ()
 
 @property (nonatomic, strong) NSArray *journalList;
-@property (nonatomic, strong) DBModel *database;
-@property (nonatomic, assign) BOOL displayAllJournals;
 
 @end
 
@@ -25,9 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = [NSString stringWithFormat:@"%@'s Journal", self.userId];
-    self.database = [[DBModel alloc] init];
-    [self showAllJournal:self.journalCategory];
+    self.title = [NSString stringWithFormat:@"%@'s Journal", [CurrentData sharedData].userId];
+    [self showAllJournal:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,19 +34,33 @@
 }
 
 - (IBAction)showAllJournal:(UIBarButtonItem *)sender {
-
-    self.displayAllJournals = YES;
-    self.journalList = [self.database journalWithUserId:self.userId];
+    
+    DBModel *database = [[DBModel alloc] init];
+    self.journalList = [database journalWithUserId:[CurrentData sharedData].userId];
     [self.tableView reloadData];
-    sender = [[UIBarButtonItem alloc] initWithTitle:@"Current Chapter" style:UIBarButtonItemStylePlain target:self action:@selector(showCurrentChapter:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Current Chapter" style:UIBarButtonItemStylePlain target:self action:@selector(showCurrentChapter:)];
 }
 
 - (IBAction)showCurrentChapter:(UIBarButtonItem *)sender {
-
-    self.displayAllJournals = NO;
-    self.journalList = [self.database journalWithUserId:self.userId chapterTitle:self.chapterTitle];
-    [self.tableView reloadData];
-    sender = [[UIBarButtonItem alloc] initWithTitle:@"All Chapters" style:UIBarButtonItemStylePlain target:self action:@selector(showAllJournal:)];
+    
+    NSString *userId = [CurrentData sharedData].userId;
+    NSString *chapterTitle = [CurrentData sharedData].chapterTitle;
+    if (userId && chapterTitle) {
+        DBModel *database = [[DBModel alloc] init];
+        self.journalList = [database journalWithUserId:userId chapterTitle:chapterTitle];
+        [self.tableView reloadData];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"All Chapters" style:UIBarButtonItemStylePlain target:self action:@selector(showAllJournal:)];
+    }
+    else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No chapter loaded!"
+                                                                       message:@"Please select a chapter from the list"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *dismissAlert = [UIAlertAction actionWithTitle:@"OK"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+        [alert addAction:dismissAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Table view data source

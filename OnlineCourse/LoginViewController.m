@@ -10,6 +10,7 @@
 #import "SplitViewController.h"
 #import "User.h"
 #import "DBModel.h"
+#import "CurrentData.h"
 
 @interface LoginViewController ()
 
@@ -45,7 +46,6 @@
             if ([pass isEqualToString:obj.password]) {
                 passValidated = YES;
                 [self loginSuccessfully];
-                [database setCurrentUser:user];
                 return;
             }
         }
@@ -65,6 +65,7 @@
 -(void)loginSuccessfully {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Completed" message:@"Welcome to Software merchant online course!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
+    [CurrentData sharedData].userId = user;
     [self performSegueWithIdentifier:@"JumpToSplitView" sender:self];
     
 }

@@ -10,9 +10,8 @@
 
 @interface JournalTableViewController : UITableViewController
 
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *journalCategory;
-@property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *chapterTitle;
+/*@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *chapterTitle;*/
 
 - (IBAction)showAllJournal:(UIBarButtonItem *)sender;
 - (IBAction)showCurrentChapter:(UIBarButtonItem *)sender;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KhX-hW-wgC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KhX-hW-wgC">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -123,7 +123,7 @@
                     <navigationItem key="navigationItem" title="Video" id="mOI-FS-AaM">
                         <barButtonItem key="rightBarButtonItem" title="Journal" id="26c-Z1-gMY">
                             <connections>
-                                <segue destination="Hrd-3b-WJo" kind="show" id="jTA-9Y-4Mq"/>
+                                <segue destination="Hrd-3b-WJo" kind="show" identifier="showJournal" id="jTA-9Y-4Mq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -216,12 +216,7 @@
                             <outlet property="delegate" destination="Hrd-3b-WJo" id="hBI-lr-vv5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="User Journal" id="kDb-d0-iQS">
-                        <barButtonItem key="rightBarButtonItem" title="Current Chapter" id="uri-R0-NyP"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="journalCategory" destination="uri-R0-NyP" id="ZIt-yI-DwA"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="User Journal" id="kDb-d0-iQS"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gnd-29-b34" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

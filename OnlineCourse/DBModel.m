@@ -53,10 +53,7 @@
     [self checkOk:result withMessage:@"Failed to open database."];
     
     NSString *createQuery =
-    @"CREATE TABLE IF NOT EXISTS CURRENT_USER ("
-    "  CURRENT_USER  TEXT PRIMARY KEY"
-    ");"
-    "CREATE TABLE IF NOT EXISTS USER ("
+    @"CREATE TABLE IF NOT EXISTS USER ("
     "  USER_ID   TEXT PRIMARY KEY,"
     "  PASSWORD  TEXT NOT NULL"
     ");"
@@ -94,7 +91,7 @@
 }
 
 /* Get current logged in user */
-- (NSString *)currentUser {
+/*- (NSString *)currentUser {
 
     NSString *selectQuery = @"SELECT * FROM CURRENT_USER;";
     
@@ -114,10 +111,10 @@
     sqlite3_close(db);
     
     return currentUser;
-}
+}*/
 
 /* Log out */
-- (void)removeCurrentUser {
+/*- (void)removeCurrentUser {
 
     NSString *deleteQuery = @"DELETE FROM CURRENT_USER;";
     int result = sqlite3_open([dbPath UTF8String], &db);
@@ -133,7 +130,7 @@
     
     sqlite3_finalize(statement);
     sqlite3_close(db);
-}
+}*/
 
 /* Returns a complete user list */
 - (NSArray *)users {

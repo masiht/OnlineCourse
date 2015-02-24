@@ -10,8 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 
 @class PlayerView;
-@class Chapter;
-@class User;
 
 @interface DetailViewController : UIViewController <UIAlertViewDelegate>
 
@@ -21,7 +19,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *nextButton;
 @property (nonatomic, weak) IBOutlet UISlider *slider;
 @property (nonatomic, copy) NSString *chapterTitle;
-@property (nonatomic, copy) NSString *userId;
+/*@property (nonatomic, copy) NSString *userId;*/
 
 - (IBAction)seek:(UISlider *)sender;
 - (IBAction)play:(UIButton *)sender;

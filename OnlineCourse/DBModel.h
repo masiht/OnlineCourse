@@ -19,8 +19,8 @@
 - (instancetype)init;
 - (void)createTables;
 - (void)dropTables;
-- (NSString *)currentUser;
-- (void)removeCurrentUser;
+/*- (NSString *)currentUser;
+- (void)removeCurrentUser;*/
 - (NSArray *)users;
 - (NSArray *)chapters;
 - (NSArray *)journals;
