@@ -106,7 +106,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chapter Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HzG-bh-2YO">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Chapter Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HzG-bh-2YO">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -136,7 +136,6 @@
                             <constraint firstItem="eAk-wX-czD" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" id="uG8-RZ-xrJ"/>
                             <constraint firstAttribute="centerX" secondItem="HzG-bh-2YO" secondAttribute="centerX" id="w6s-za-VfV"/>
                         </constraints>
-                        <variation key="heightClass=regular-widthClass=regular"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Video" id="mOI-FS-AaM">
