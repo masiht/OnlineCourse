@@ -46,7 +46,7 @@
     }
 }
 
-/* Checks the result of sql command, close db and assert failure if no SQLITE_OK */
+/* Checks the result of sql command, close db and assert failure if no SQLITE_DONE */
 - (void)checkDone:(int)result withMessage:(NSString *)errorMsg {
     
     if (result != SQLITE_DONE) {

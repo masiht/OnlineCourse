@@ -33,6 +33,7 @@
     self.navigationItem.titleView = [[UIImageView alloc]initWithImage:logoImage];
     self.willPause = NO;
     self.willRestart = NO;
+    self.slider.enabled = NO;
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -255,8 +256,8 @@
     }
     // Load next chapter
     Chapter *prevChapter = chapterList[index - 1];
-    self.chapterTitle = prevChapter.chapterTitle;;
-    [self loadAsset];
+    self.chapterTitle = prevChapter.chapterTitle;
+    [self viewWillAppear:YES];
 }
 
 /* Next button behavior */
@@ -286,7 +287,7 @@
     // Load next chapter
     Chapter *nextChapter = chapterList[index + 1];
     [self setChapterTitle:nextChapter.chapterTitle];
-    [self loadAsset];
+    [self viewWillAppear:YES];
 }
 
 /* TODO: fullscreen action */
